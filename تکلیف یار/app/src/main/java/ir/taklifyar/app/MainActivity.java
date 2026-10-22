@@ -1,4 +1,4 @@
-package ir.taklifyar.app;
+ackage ir.taklifyar.app;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -17,7 +17,9 @@ import java.io.*;
 public class MainActivity extends Activity {
     private WebView webView;
     private ValueCallback<Uri[]> fileCallback;
-    private static final int PICK_JSON = 2041;\n    private static final int CREATE_JSON = 2042;\n    private String pendingBackupJson;
+    private static final int PICK_JSON = 2041;
+    private static final int CREATE_JSON = 2042;
+    private String pendingBackupJson;
 
     @Override public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
