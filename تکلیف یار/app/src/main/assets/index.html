@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#08111f"><title>تکلیف‌یار</title><link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header><div class="brandmark">✓</div><div><h1>تکلیف‌یار</h1><p>برنامه‌ریزی هوشمند تکالیف مدرسه</p></div><span id="todayChip" class="chip"></span></header>
+<main>
+<section class="stats"><div class="stat"><span>باقی‌مانده</span><strong id="pendingCount">۰</strong></div><div class="stat done"><span>انجام‌شده</span><strong id="doneCount">۰</strong></div><div class="stat"><span>مجموع</span><strong id="allCount">۰</strong></div></section>
+<nav class="tabs">
+<button class="tab active" data-page="home">خانه</button><button class="tab" data-page="tasks">تکالیف روز</button><button class="tab" data-page="add">افزودن تکلیف</button><button class="tab" data-page="week">برنامه هفتگی</button><button class="tab" data-page="reports">گزارش و پشتیبان</button>
+</nav>
+<section id="home" class="page active">
+<div class="welcome"><div><small>امروز وقت پیشرفته</small><h2>قدم‌به‌قدم جلو برو ✨</h2><p>تکالیفت را ثبت کن و با خیال راحت انجامشان بده.</p></div></div>
+<div class="quickgrid">
+<button class="quick" data-goto="tasks"><span class="qicon">☷</span><b>تکالیف روز</b><small>مشاهده و مدیریت تکالیف</small></button>
+<button class="quick" data-goto="add"><span class="qicon">＋</span><b>افزودن تکلیف</b><small>ثبت تکلیف جدید</small></button>
+<button class="quick" data-goto="week"><span class="qicon">▦</span><b>برنامه هفتگی مدرسه</b><small>ویرایش درس‌ها و زنگ‌ها</small></button>
+<button class="quick" data-goto="reports"><span class="qicon">▤</span><b>گزارش و پشتیبان</b><small>جست‌وجو، سوابق و فایل پشتیبان</small></button>
+</div>
+<div class="panel"><div class="panelhead"><h3>تکالیف نزدیک</h3><button class="link" data-goto="tasks">مشاهده همه</button></div><div id="upcomingList"></div></div>
+</section>
+<section id="tasks" class="page">
+<div class="pagehead"><div><h2>تکالیف روز</h2><p>روز موردنظرت را انتخاب کن.</p></div></div>
+<div class="panel"><label for="daySelect">روز هفته</label><select id="daySelect"></select><div id="selectedDate" class="muted"></div><div id="dayTasks"></div></div>
+</section>
+<section id="add" class="page">
+<div class="pagehead"><div><h2 id="formTitle">افزودن تکلیف</h2><p>موعد بر اساس جلسه بعدی همان درس محاسبه می‌شود.</p></div></div>
+<form id="taskForm" class="panel">
+<input type="hidden" id="editId">
+<label for="classDate">تاریخ جلسه کلاس</label><input id="classDate" type="date" required>
+<label for="classDay">روز کلاس</label><select id="classDay" required></select>
+<label for="subject">درس</label><select id="subject" required></select>
+<label for="description">شرح تکلیف</label><textarea id="description" rows="4" maxlength="2000" placeholder="مثلاً تمرین‌های صفحه ۴۲، سؤال‌های ۱ تا ۵" required></textarea>
+<div id="duePreview" class="duepreview">برای محاسبه موعد، روز و درس را انتخاب کن.</div>
+<div class="formactions"><button class="primary" type="submit">ذخیره تکلیف</button><button class="secondary" id="cancelEdit" type="button" hidden>لغو ویرایش</button></div>
+</form>
+</section>
+<section id="week" class="page">
+<div class="pagehead"><div><h2>برنامه هفتگی مدرسه</h2><p>برای ویرایش هر خانه، روی آن بزن.</p></div><button id="resetWeek" class="secondary">بازگردانی اولیه</button></div>
+<div id="weekGrid" class="weekgrid"></div>
+<p class="hint">تغییرات به‌صورت خودکار روی همین دستگاه ذخیره می‌شوند.</p>
+</section>
+<section id="reports" class="page">
+<div class="pagehead"><div><h2>گزارش و پشتیبان</h2><p>آمار بر اساس تکالیف واقعی ذخیره‌شده است.</p></div></div>
+<div class="reportgrid"><div class="reportbox"><span>نرخ انجام</span><strong id="completionRate">۰٪</strong></div><div class="reportbox"><span>تکالیف این هفته</span><strong id="weekCount">۰</strong></div></div>
+<div class="panel">
+<label for="searchText">جست‌وجو در تکالیف</label><input id="searchText" placeholder="بخشی از متن یا نام درس…">
+<div class="filters"><select id="filterSubject"><option value="">همه درس‌ها</option></select><select id="sortBy"><option value="due">مرتب‌سازی بر اساس موعد</option><option value="created">مرتب‌سازی بر اساس ثبت</option></select></div>
+<div id="searchResults"></div>
+</div>
+<div class="panel"><h3>پشتیبان‌گیری و بازیابی</h3><p class="muted">یک نسخه JSON از برنامه هفتگی و تمام تکالیف بساز یا فایل قبلی را بازیابی کن.</p>
+<div class="formactions"><button id="exportBtn" class="primary" type="button">دریافت فایل پشتیبان</button><label class="filebutton">بازیابی فایل JSON<input id="importFile" type="file" accept=".json,application/json" hidden></label></div>
+<p class="hint">هشدار: بازیابی جایگزین اطلاعات فعلی می‌شود و ابتدا از تو تأیید می‌گیرد. بهتر است قبل از آن پشتیبان بگیری.</p></div>
+</section>
+</main>
+<div id="toast" class="toast" role="status"></div>
+<footer>تکلیف‌یار <span>•</span> اطلاعات فقط روی همین دستگاه ذخیره می‌شود.</footer>
+<script src="app.js"></script>
+</body></html>
